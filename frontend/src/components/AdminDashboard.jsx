@@ -29,102 +29,37 @@ export default function AdminDashboard(){
         }
     }
     return(
-        <div className="h-screen bg-gray-800 flex flex-col justify-center items-center text-slate-200 space-y-10">
-            <table className="w-[75%] text-left table-auto min-w-max overflow-y-auto">
-                <thead>
-                    <tr>
-                        <th className="p-4 border-b border-slate-600 bg-slate-700">
-                            <p className="text-sm font-normal leading-none text-slate-300">
-                                Sl No
-                            </p>
-                        </th>
-                        <th className="p-4 border-b border-slate-600 bg-slate-700">
-                            <p className="text-sm font-normal leading-none text-slate-300">
-                                Payer Name
-                            </p>
-                        </th>
-                        <th className="p-4 border-b border-slate-600 bg-slate-700">
-                            <p className="text-sm font-normal leading-none text-slate-300">
-                                Payer Email
-                            </p>
-                        </th>
-                        <th className="p-4 border-b border-slate-600 bg-slate-700">
-                            <p className="text-sm font-normal leading-none text-slate-300">
-                                Amount
-                            </p>
-                        </th>
-                        <th className="p-4 border-b border-slate-600 bg-slate-700">
-                            <p className="text-sm font-normal leading-none text-slate-300">
-                                Terms
-                            </p>
-                        </th>
-                        <th className="p-4 border-b border-slate-600 bg-slate-700">
-                            <p className="text-sm font-normal leading-none text-slate-300">
-                                Created On
-                            </p>
-                        </th>
-                        <th className="p-4 border-b border-slate-600 bg-slate-700">
-                            <p className="text-sm font-normal leading-none text-slate-300">
-                                Status
-                            </p>
-                        </th>
-                    </tr>
-                </thead>
+        <div className="mx-auto overflow-x-auto">
+            <h2 className="m-10 text-center text-lg font-bold tracking-tight text-gray-900">
+                   Loans
+            </h2>
+            <table className="w-full text-left border border-separate rounded border-slate-200" cellspacing="0">
                 <tbody>
-                {loans.map((loan, index)=>{
+                    <tr>
+                        <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Sl No</th>
+                        <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Payer Name</th>
+                        <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Payer Email</th>
+                        <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Amount</th>
+                        <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Terms</th>
+                        <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Created On</th>
+                        <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Status</th>
+                    </tr>
+                    {loans.map((loan, index)=>{
                         const { id , amount , term , status , createdAT , payer } = loan
                         const { firstName , email } = payer // Ideally if loan present , Payer will be there
                         return (
-                            <tr className="hover:bg-slate-700" key={id}>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-100">
-                                        {index+1}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-100 font-semibold">
-                                        {firstName}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-100 font-semibold">
-                                        {email}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-300">
-                                    {formatAmount(amount)}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-300">
-                                        {term}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-300">
-                                        {formatDateString(createdAT)}
-                                    </p>
-                                </td>
-                                <td className={`p-4 border-b border-slate-700 ${getbackgroundColor(status)}`}>
-                                    {
-                                        status === "PENDING" ? 
-                                        <select name="status" id="status" className="text-black">
-                                            <option value={status}>{status}</option>
-                                            <option value="APPROVE">APPROVE</option>
-                                        </select> :
-                                        <p className="text-sm text-slate-300">
-                                            {status}
-                                        </p>
-                                    }
-                                </td>
-                            </tr>
-                        )
+                            <tr className="transition-colors duration-300 hover:bg-slate-50" key={id}>
+                                <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{index+1}</td>
+                                <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{firstName}</td>
+                                <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{email}</td>
+                                <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatAmount(amount)}</td>
+                                <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{term}</td>
+                                <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatDateString(createdAT)}</td>
+                                <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{status}</td>
+                            </tr>)
                     })}
                 </tbody>
             </table>
-            <button type="submit" className="w-20  border rounded-md bg-violet-500 text-slate-300 hover:bg-violet-800 hover:cursor-pointer
-                ring-violet-400 text-lg">Save</button>
         </div>
     )
 }

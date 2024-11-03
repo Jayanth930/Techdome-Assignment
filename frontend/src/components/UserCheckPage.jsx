@@ -1,12 +1,15 @@
-import { useRef } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import backendUrl from "../config/backendUrl"
-export default function UserCheckPage(){
-    const emailRef = useRef()
-    const navigate = useNavigate()
 
-    async function handleClick(){
+
+export default function UserCheckPage(){
+    const navigate = useNavigate()
+    const [email , setEmail] = useState("");
+
+    async function handleSubmit(e){
+        e.preventDefault();
         const email = emailRef.current.value
         if(!email.includes("@gmail.com")){
             return;
@@ -33,26 +36,48 @@ export default function UserCheckPage(){
 
     }
     return(
-        <div className="h-screen bg-gray-700 flex justify-center items-center text-slate-200">
-            <div className="w-96 h-60 flex flex-col">
-                <label htmlFor="email" className="text-lg">Email</label>
-                <div className="flex flex-col">
-                    <input ref={emailRef}  id="email" name="email" type="email" placeholder="Enter Your email"
-                    className="mt-2 block px-3 py-2 bg-white border text-gray-950 border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-                        focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-                        invalid:border-pink-500 invalid:text-pink-600
-                        focus:invalid:border-pink-500 focus:invalid:ring-pink-500 peer"
-                    />
-                    <p className="hidden peer-invalid:block text-pink-600 text-sm">Please provide correct Email Address</p>
-                </div>
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-20 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+                    Provide your Email Address
+                </h2>
+            </div>
 
-                <button onClick={handleClick}   className="border rounded-md bg-violet-500 text-slate-300 hover:bg-violet-800 hover:cursor-pointer
-                ring-violet-400 text-lg mt-4">Check Email</button>
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
+                            Email address <span className="text-pink-600">*</span>
+                        </label>
+                        <div className="mt-2">
+                            <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={email}
+                            onChange={(e)=>setEmail(e.target.value)}
+                            autoComplete="email"
+                            className="peer block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6 px-2
+                            invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500"
+                            />
+                            <p className="hidden peer-invalid:block text-pink-600 text-sm">Please provide correct Email Address</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button
+                            type="submit"
+                            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            Submit
+                        </button>
+                    </div>
+                </form>
 
-                <div className="text-center"><p className="text-slate-300">Don't have account? 
-                    <a className="text-blue-400 border-b-2 border-b-blue-700 ml-1 cursor-pointer"
-                    onClick={()=> navigate("/register")}>SignUp</a></p>
-                </div>
+                <p className="mt-10 text-center text-sm/6 text-gray-500">
+                    Not a member?{` `}
+                    <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    Sign Up
+                    </Link>
+                </p>
             </div>
         </div>
     )

@@ -12,7 +12,10 @@ export default function TermDashboard(){
         fetchupcomingTerms(accessToken)
         fetchPastPendingTerms(accessToken)
     },[])
-
+    useEffect(()=>{
+        console.log("upcoming",upocomingTerms)
+        console.log("past",pastPendingTerms)
+    },[upocomingTerms.pastPendingTerms])
     async function fetchupcomingTerms(accessToken){
           try {
             const { data } = await axios.get(`${backendUrl}/api/v1/term/pending/upcoming`,{
@@ -42,143 +45,58 @@ export default function TermDashboard(){
           }
     }
     return (
-        <div className="h-full bg-gray-800 flex flex-col text-slate-200 border-2 border-b-orange-500">
-            <div className="flex-1 flex flex-col">
-                <h3>Upcomimng Terms </h3>
-                <table className="w-[75%] text-left table-auto min-w-max overflow-y-auto">
-                    <thead>
-                        <tr>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    Sl No
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    Amount
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    Terms
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    due
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    Status
-                                </p>
-                            </th>
-                        </tr>
-                    </thead>
+        <div className="h-full w-[75%] overflow-x-auto flex flex-col">
+            <div className="flex-[1_1_0]">
+                <h2 className="text-center text-lg font-bold tracking-tight text-gray-900">
+                    Upcoming Terms
+                </h2>
+                <table className="w-full text-left border border-separate rounded border-slate-200" cellSpacing="0">
                     <tbody>
-                    {upocomingTerms.map((Term, index)=>{
+                        <tr key={2}>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Sl No</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Amount</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Terms</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Created On</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Status</th>
+                        </tr>
+                        {upocomingTerms.map((Term, index)=>{
                             const { id , termAmount , term , status , due } = Term
                             return (
-                                <tr className="hover:bg-slate-700" key={id}>
-                                    <td className="p-4 border-b border-slate-700">
-                                        <p className="text-sm text-slate-100 font-semibold">
-                                            {index+1}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-700">
-                                        <p className="text-sm text-slate-300">
-                                        {formatAmount(termAmount)}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-700">
-                                        <p className="text-sm text-slate-300">
-                                            {term}
-                                        </p>
-                                    </td>
-                                    <td className="p-4 border-b border-slate-700">
-                                        <p className="text-sm text-slate-300">
-                                            {formatDateString(due)}
-                                        </p>
-                                    </td>
-                                    <td className={`p-4 border-b border-slate-700 ${getbackgroundColor(status)}`}>
-                                        <p className="text-sm text-black">
-                                            {status}
-                                        </p>
-                                    </td>
-                                </tr>
-                            )
+                                <tr className="transition-colors duration-300 hover:bg-slate-50" key={id}>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{index+1}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatAmount(termAmount)}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{term}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{due}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{getbackgroundColor(status)}</td>
+                                </tr>)
                         })}
                     </tbody>
                 </table>
             </div>
-            <br></br>
-            <div className="flex-1 flex flex-col">
-                <h3>Past Pending Terms</h3>
-                <table className="w-[75%] text-left table-auto min-w-max overflow-y-auto">
-                    <thead>
-                        <tr>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    Sl No
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    Amount
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    Terms
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    due
-                                </p>
-                            </th>
-                            <th className="p-4 border-b border-slate-600 bg-slate-700">
-                                <p className="text-sm font-normal leading-none text-slate-300">
-                                    Status
-                                </p>
-                            </th>
-                        </tr>
-                    </thead>
+            <div className="flex-[1_1_0]">
+                <h2 className="text-center text-lg font-bold tracking-tight text-gray-900">
+                    Past Pending Terms
+                </h2>
+                <table className="w-full text-left border border-separate rounded border-slate-200" cellSpacing="0">
                     <tbody>
-                    {pastPendingTerms.map((pastTerms, index)=>{
-                        const { pastPendingTerms } = pastTerms
-                        pastPendingTerms.map((Term,index)=>{
+                        <tr key={1}>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Sl No</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Amount</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Terms</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Created On</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Status</th>
+                        </tr>
+                        {/* {pastPendingTerms.map((Term, index)=>{
                             const { id , termAmount , term , status , due } = Term
                             return (
-                                <tr className="hover:bg-slate-700" key={id}>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-100 font-semibold">
-                                        {index+1}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-300">
-                                    {formatAmount(termAmount)}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-300">
-                                        {term}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-slate-700">
-                                    <p className="text-sm text-slate-300">
-                                        {formatDateString(due)}
-                                    </p>
-                                </td>
-                                <td className={`p-4 border-b border-slate-700 ${getbackgroundColor(status)}`}>
-                                    <p className="text-sm text-black">
-                                        {status}
-                                    </p>
-                                </td>
-                            </tr>
-                        )})
-                     })}
+                                <tr className="transition-colors duration-300 hover:bg-slate-50" key={id}>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{index+1}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatAmount(termAmount)}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{term}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{due}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{getbackgroundColor(status)}</td>
+                                </tr>)
+                        })} */}
                     </tbody>
                 </table>
             </div>
