@@ -14,7 +14,7 @@ export async function askLoan(req:Request<{},{},LoanDTO> , res:Response<composit
             data : { amount : parseFloat(amount) , term : parseInt(term) , payerId : id }
         })
         if(!loan){
-            res.status(400).json({ responseCode : 2 , message : "Unable to create Loan"})
+            res.status(200).json({ responseCode : 2 , message : "Unable to create Loan"})
             return 
         }else{
             res.status(200).json({ responseCode : 1 , message : "Loan created" , data : loan })

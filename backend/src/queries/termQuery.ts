@@ -16,8 +16,8 @@ export async function getUpcomingTerms(req:Request , res:Response<composite> , n
             return term
         })
         const terms = await Promise.all(results)
-        const termsOut = terms.filter((term)=>term!=null)
-        res.status(200).json({ responseCode : 1 , message : "Successfully fetched Pending Terms for all Loans" , data : termsOut})
+        const result = terms.filter((term)=>term!=null)
+        res.status(200).json({ responseCode : 1 , message : "Successfully fetched Pending Terms for all Loans" , data : result})
    } catch (error) {
         res.status(500).json({ responseCode : 0 , message : error.message })
    }
@@ -29,12 +29,11 @@ export async function getPastPendingTerms(req:Request , res:Response<composite> 
           const loans = await prisma.loan.findMany({ where : { payerId : id }});
           const results = loans.map(async (loan)=>{
               const terms = await prisma.term.findMany({ where : { loanId : loan.id , status : "PENDING", due : { lt : new Date()}} , orderBy : { due : "asc"}});
-              return{ 
-                pastPendingTerms : terms 
-              }
+              return terms
           })
           const terms = await Promise.all(results)
-          res.status(200).json({ responseCode : 1 , message : "Successfully fetched Pending Terms for all Loans" , data : terms}) 
+          const result = terms.flat(2);
+          res.status(200).json({ responseCode : 1 , message : "Successfully fetched Pending Terms for all Loans" , data : result}) 
      } catch (error) {
           res.status(500).json({ responseCode : 0 , message : "Error in getching past pending terms"}) 
      }

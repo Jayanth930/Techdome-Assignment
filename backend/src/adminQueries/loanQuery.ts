@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 
 export async function getAllLoans(req:Request<{},{},{email : string}> , res:Response<composite> , next:NextFunction){
     try {
-        const loans = await prisma.loan.findMany({ include : { payer : { select : { email : true , firstName : true}}}});
+        const loans = await prisma.loan.findMany({ orderBy : { createdAT : "desc" } ,include : { payer : { select : { email : true , firstName : true}}}});
         res.status(200).json({ responseCode : 1 , message: "Successfully fetched Loans" , data : loans})
     } catch (error) {
         res.status(500).json({ responseCode : 0 , message: "Unable to fetch Loans" })

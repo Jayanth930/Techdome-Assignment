@@ -4,7 +4,7 @@ export interface credentials{
 }
 
 export interface success {
-    responseCode : 1 , 
+    responseCode : number , 
     message : string ,
     data? : any
 }

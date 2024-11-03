@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient , UserStatus } from "@prisma/client";
 import { generateAccesstoken, gethashedPassword } from "../utils";
 import bcrypt from "bcrypt"
 // types 
@@ -53,6 +53,7 @@ export async function createUser(req:Request<{},{},User> , res:Response<composit
 export async function completeProfile(req:Request<{},{},Partial<User>,{ email : string}>, res:Response<composite> , next:NextFunction){
     const { firstName , lastName , phoneNo } = req.body
     const { email } = req.query
+    console.log(email,req.body)
     try {
         let data : Partial<User>
         if(lastName){
@@ -65,7 +66,7 @@ export async function completeProfile(req:Request<{},{},Partial<User>,{ email : 
             data : { ...data , status : "ACTIVE"}
         })
         if(!user) res.status(200).json({ responseCode : 2 , message : "Email Not Found"})
-        else res.status(200).json({ responseCode : 1 , message : "Successfully updated the user"})
+        else res.status(200).json({ responseCode : 1 , message : "Successfully updated the user , redirect to Login Page"})
     } catch (error) {
         res.status(500).json({ responseCode : 0 , message : "Error in updating user"})
     }
@@ -74,21 +75,18 @@ export async function completeProfile(req:Request<{},{},Partial<User>,{ email : 
 // Validate User 
 export async function validateUser(req:Request<{},{},credentials>, res:Response<composite> , next:NextFunction) {
     const { email , password } = req.body;
-    if(!email){
-        res.status(200).json({ responseCode : 4 , message : "Please provide email"})
-        return
-    }
     const user = await prisma.user.findUnique({ where : { email }});
-    if(!user){
-        res.status(200).json({ responseCode : 2 , message : "User Not Found , Redirect to register page"});
-        return;
-    }
     try {
-        const hash = user.password;
+        const {password : hash , status , id } = user;
         const isValid = await bcrypt.compare(password,hash);
         if(isValid){
-            const accessToken = generateAccesstoken({ email , id : user.id })
-            res.status(200).json({ responseCode : 1 , message : "Successfully Authenticated user" , data : accessToken})
+            const accessToken = generateAccesstoken({ email , id })
+            if(status === UserStatus.VERIFIED){
+                res.status(200).json({ responseCode : 2 , message : "Redirect to profile page" , data : accessToken})
+            }else{
+                // profile is also completed , redirect to home page
+                res.status(200).json({ responseCode : 1 , message : "Redirect to Home page" , data : accessToken})
+            }
         }else{
             res.status(200).json({ responseCode : 3 , message : "Incorrect Passoword"})
         }

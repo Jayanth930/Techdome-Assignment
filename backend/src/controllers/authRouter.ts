@@ -7,9 +7,9 @@ router.post("/check",getUserStatus)
 
 router.post("/register",createUser)
 
-router.post("/profile",completeProfile)
-
 router.post("/login",validateUser)
+
+router.post("/profile",completeProfile)
 
 
 export default router;
