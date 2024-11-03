@@ -53,7 +53,6 @@ export async function createUser(req:Request<{},{},User> , res:Response<composit
 export async function completeProfile(req:Request<{},{},Partial<User>,{ email : string}>, res:Response<composite> , next:NextFunction){
     const { firstName , lastName , phoneNo } = req.body
     const { email } = req.query
-    console.log(email,req.body)
     try {
         let data : Partial<User>
         if(lastName){

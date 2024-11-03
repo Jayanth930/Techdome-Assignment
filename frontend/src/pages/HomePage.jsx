@@ -2,7 +2,7 @@ import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import AskLoan from "./AskLoan";
 import LoanDashboard from "./LoanDashboard";
 import TermDashboard from "./TermDashboard"
-import SideBar from "./SideBar";
+import SideBar from "../components/SideBar";
 import { useEffect } from "react";
 export default function HomePage() {
 

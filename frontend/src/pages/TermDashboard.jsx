@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import backendUrl from "../config/backendUrl"
+import Modal from "../components/Modal"
 import axios from "axios"
 
 export default function TermDashboard(){
@@ -54,6 +55,7 @@ export default function TermDashboard(){
                             <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Terms</th>
                             <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Created On</th>
                             <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Status</th>
+                            <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Pay Term</th>
                         </tr>
                         {upocomingTerms.map((Term, index)=>{
                             const { id , termAmount , term , status , due } = Term
@@ -64,6 +66,7 @@ export default function TermDashboard(){
                                     <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{term}</td>
                                     <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatDateString(due)}</td>
                                     <td className={`h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ${getbackgroundColor(status)}`}>{status}</td>
+                                    <td className={`h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500`}><Modal amount={termAmount}  id={id}/></td>
                                 </tr>)
                         })}
                     </tbody>
