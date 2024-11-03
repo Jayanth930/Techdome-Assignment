@@ -12,10 +12,6 @@ export default function TermDashboard(){
         fetchupcomingTerms(accessToken)
         fetchPastPendingTerms(accessToken)
     },[])
-    useEffect(()=>{
-        console.log("upcoming",upocomingTerms)
-        console.log("past",pastPendingTerms)
-    },[upocomingTerms.pastPendingTerms])
     async function fetchupcomingTerms(accessToken){
           try {
             const { data } = await axios.get(`${backendUrl}/api/v1/term/pending/upcoming`,{
@@ -66,8 +62,8 @@ export default function TermDashboard(){
                                     <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{index+1}</td>
                                     <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatAmount(termAmount)}</td>
                                     <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{term}</td>
-                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{due}</td>
-                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{getbackgroundColor(status)}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatDateString(due)}</td>
+                                    <td className={`h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ${getbackgroundColor(status)}`}>{status}</td>
                                 </tr>)
                         })}
                     </tbody>
@@ -86,17 +82,17 @@ export default function TermDashboard(){
                             <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Created On</th>
                             <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Status</th>
                         </tr>
-                        {/* {pastPendingTerms.map((Term, index)=>{
+                        {pastPendingTerms.map((Term, index)=>{
                             const { id , termAmount , term , status , due } = Term
                             return (
                                 <tr className="transition-colors duration-300 hover:bg-slate-50" key={id}>
                                     <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{index+1}</td>
                                     <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatAmount(termAmount)}</td>
                                     <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{term}</td>
-                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{due}</td>
-                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{getbackgroundColor(status)}</td>
+                                    <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatDateString(due)}</td>
+                                    <td className={`h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ${getbackgroundColor(status)}`}>{status}</td>
                                 </tr>)
-                        })} */}
+                        })}
                     </tbody>
                 </table>
             </div>
@@ -119,8 +115,11 @@ function formatAmount(amount) {
 
 function getbackgroundColor(status){
     if(status === "PENDING"){
-        return "bg-yellow-600"
+        return "bg-red-200"
+    }else if(status === "APPROVED"){
+        return "bg-yellow-400"
     }else{
-        return "bg-lime-700"
+        // paid
+        return "bg-lime-400"
     }
 }

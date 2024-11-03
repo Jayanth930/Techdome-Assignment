@@ -12,6 +12,7 @@ export default function RegisterPage(){
     async function handleSubmit(e){
         e.preventDefault()
         if(!email.includes("@gmail.com")){
+            // Toast should appear
             return;
         }
         try {
@@ -22,6 +23,7 @@ export default function RegisterPage(){
                 })
             }else{
                 // Toast message
+                console.log("Error "+error.message)
             }
         } catch (error) {
             console.log("Error "+error.message)

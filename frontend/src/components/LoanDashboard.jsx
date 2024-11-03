@@ -33,7 +33,7 @@ export default function LoanDashboard(){
             <h2 className="m-10 text-center text-lg font-bold tracking-tight text-gray-900">
                    Loans
             </h2>
-            <table className="w-full text-left border border-separate rounded border-slate-200" cellspacing="0">
+            <table className="w-full text-left border border-separate rounded border-slate-200" cellSpacing="0">
                 <tbody>
                     <tr>
                         <th scope="col" className="h-12 px-6 text-sm font-medium border-l first:border-l-0 stroke-slate-700 text-slate-700 bg-slate-100">Sl No</th>
@@ -50,7 +50,7 @@ export default function LoanDashboard(){
                                 <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatAmount(amount)}</td>
                                 <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{term}</td>
                                 <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{formatDateString(createdAT)}</td>
-                                <td className="h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ">{getbackgroundColor(status)}</td>
+                                <td className={`h-12 px-6 text-sm transition duration-300 border-t border-l first:border-l-0 border-slate-200 stroke-slate-500 text-slate-500 ${getbackgroundColor(status)}`}>{status}</td>
                             </tr>)
                     })}
                 </tbody>
@@ -59,9 +59,6 @@ export default function LoanDashboard(){
     )
 }
 
-function TableWithHover() {  
-  
-}
 
 function formatDateString(dateString) {
     // The datstring passed will look like -> 02-11-2024T10:15:52.586
@@ -80,9 +77,9 @@ function getbackgroundColor(status){
     if(status === "PENDING"){
         return "bg-red-200"
     }else if(status === "APPROVED"){
-        return "bg-lime-700"
+        return "bg-yellow-400"
     }else{
         // paid
-        return "bg-yellow-700"
+        return "bg-lime-400"
     }
 }

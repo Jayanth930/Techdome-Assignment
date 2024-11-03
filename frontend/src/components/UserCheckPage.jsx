@@ -10,8 +10,8 @@ export default function UserCheckPage(){
 
     async function handleSubmit(e){
         e.preventDefault();
-        const email = emailRef.current.value
         if(!email.includes("@gmail.com")){
+            // Email is not Valid
             return;
         }
         try {

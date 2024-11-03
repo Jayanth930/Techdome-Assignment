@@ -1,7 +1,12 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink , useNavigate} from "react-router-dom";
 
 export default function SideBar(){
     // const [isSideNavOpen, setIsSideNavOpen] = useState(false)
+    const navigate = useNavigate()
+    function handleLogout(){
+      localStorage.removeItem("accesstoken");
+      navigate("/")
+    }
     return(
         <aside
         id="nav-menu-1"
@@ -90,7 +95,7 @@ export default function SideBar(){
           </div>
         </nav>
         <footer className="border-t border-slate-200 p-3">
-        <NavLink className={({ isActive })=>`flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-500 focus:bg-emerald-50 ${isActive ? "bg-emrald-50 text-emrald-50" : ""}`} >
+        <NavLink className={({ isActive })=>`flex items-center gap-3 rounded p-3 text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-500 focus:bg-emerald-50 ${isActive ? "bg-emrald-50 text-emrald-50" : ""}`} onClick={handleLogout}>
             <div className="flex items-center self-center">
               <svg
                 fill="none"

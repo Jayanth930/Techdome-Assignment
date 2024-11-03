@@ -25,6 +25,7 @@ export default function AskLoan(){
             }
         } catch (error) {
             // Toast representing error
+            console.log("Error in creating Loan "+error.message)
         }
     }
     return(

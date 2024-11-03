@@ -40,16 +40,19 @@ export default function ProfilePage(){
         const profileData = {
             firstName , lastName , phoneNo
         }
-        
-        if(!isfirstNameValid || !islastNameValid || !islastNameValid || !phoneNo) return;
+        if(!isfirstNameValid || !islastNameValid || !islastNameValid || !phoneNo){
+            // Show Toast message in which fields are not valid
+            return 
+        }
         
         try {
             const { data } = await axios.post(`${backendUrl}/api/v1/auth/profile?email=${email}`,profileData)
-            if(data.responseCode == 2){
+            if(data.responseCode == 1){
+                 // successfully registered can go to home page
+                 navigate("/login")
+            }else if(data.responseCode == 2){
                 // email not found toast should appear
-            }else if(data.responseCode == 1){
-                // successfully registered can go to home page
-                navigate("/home")
+                navigate("/register");
             }else{
                 // an error occured
                 console.log("Error "+data.message)
