@@ -1,0 +1,1 @@
+{"root":["./src/app.ts","./src/utils.ts","./src/controllers/authrouter.ts","./src/controllers/loanrouter.ts","./src/queries/authquery.ts","./src/queries/loanquery.ts","./src/services/approuter.ts","./src/services/validator.ts","./src/types/dto.ts","./src/types/express.d.ts"],"version":"5.6.3"}

@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "moduleResolution": "node",
+      "baseUrl": "./src",
+      "paths": {
+        "*": ["node_modules/*"]
+      },
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "esModuleInterop": true,
+      "resolveJsonModule": true ,
+      "typeRoots": ["./src/types"]
+    },
+    "include": ["src/**/*"],
+    "exclude": ["dist"]
+  }
+  

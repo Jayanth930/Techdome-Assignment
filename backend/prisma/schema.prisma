@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LoanStatus {
+  PENDING
+  APPROVED
+  PAID
+
+  @@map("loan_status")
+}
+
+enum TermStatus {
+  PENDING
+  PAID
+
+  @@map("term_status")
+}
+
+enum UserStatus {
+  VERIFIED
+  ACTIVE
+
+  @@map("user_status")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  firstName String?    @map("first_name") @db.VarChar(255)
+  lastName  String?    @map("last_name") @db.VarChar(255) // lastname is optional
+  email     String     @db.VarChar(325) // maximum characters could possible in an email are 320
+  password  String     @db.Text // Cause password will be encrypted
+  phoneNo   String?    @map("phone_no") @db.VarChar(20) // maximum could be of length 15 (through google)
+  createdAT DateTime   @default(now()) @map("created_at") @db.Timestamp()
+  updatedAT DateTime   @updatedAt @map("updated_at") @db.Timestamp()
+  status    UserStatus @default(VERIFIED)
+  Loan      Loan[]
+
+  @@unique([email])
+  @@unique([phoneNo])
+  @@index([email])
+  @@map("users") //created Table will have name of users in db
+}
+
+model Loan {
+  id        String     @id @default(uuid())
+  amount    Float      @db.DoublePrecision
+  term      Int
+  payerId   String     @map("payer_id")
+  payer     User       @relation(fields: [payerId], references: [id], onDelete: Cascade)
+  status    LoanStatus @default(PENDING)
+  createdAT DateTime   @default(now()) @map("created_at") @db.Timestamp()
+  updatedAT DateTime   @updatedAt @map("updated_at") @db.Timestamp()
+  Term      Term[]
+
+  @@index([payerId]) // Mostly we query based on payer_id so indexing makes sense
+  @@map("loans")
+}
+
+model Term {
+  id         String     @id @default(uuid())
+  termAmount Float      @map("term_amount") @db.DoublePrecision
+  term       Int // This field represents about whats the term for repayment of Loan
+  loanId     String     @map("loan_id")
+  loan       Loan       @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  status     TermStatus @default(PENDING)
+  due        DateTime   @db.Date // Ideally it could be DateTime as well but its better we store date
+  createdAT  DateTime   @default(now()) @map("created_at") @db.Timestamp()
+  updatedAT  DateTime   @updatedAt @map("updated_at") @db.Timestamp()
+
+  @@index([loanId])
+  @@index([due]) // sometimes we might need to fetch terms on speific date then index on due date makes sense
+  @@map("terms") // Table name in database
+}
