@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import backendUrl from "../config/backendUrl"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify";
 export default function LoanDashboard(){
     
     const [loans , setLoans] = useState([]);
@@ -23,6 +24,8 @@ export default function LoanDashboard(){
             })
             if(data.responseCode === 1){
                 setLoans(data.data)
+            }else{
+                toast.error("Error in fetching loans "+data.message)
             }
         } catch (error) {
             console.log("Error "+error.message)

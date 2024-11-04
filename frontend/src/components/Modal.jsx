@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import { useNavigate } from "react-router-dom"
 import backendUrl from "../config/backendUrl"
 import axios from "axios"
+import { toast } from "react-toastify"
 
 export default function Modal({amount , id}) {
   const [isShowing, setIsShowing] = useState(false)
@@ -24,8 +25,9 @@ export default function Modal({amount , id}) {
           }
         })
         const { responseCode } = data
-        if(responseCode == 1 || responseCode || 2){
-            navigate(0)
+        if(responseCode == 1 || responseCode == 2){
+          toast.success("Successfully Paid Term/Loan")
+          setTimeout(()=>navigate(0),3000)
         }else{
             // toast should appear
             console.log("Error "+data.message)

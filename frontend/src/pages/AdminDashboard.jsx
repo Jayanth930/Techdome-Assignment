@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import backendUrl from "../config/backendUrl"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify";
 export default function AdminDashboard(){
     
     const [loans , setLoans] = useState([]);
@@ -41,7 +42,8 @@ export default function AdminDashboard(){
             })
             if(data.responseCode === 1){
                 // toast -> successfully approved Loans
-                navigate(0)
+                toast.success("Successfully Approved Loans")
+                setTimeout(()=>navigate(0),3000)
             }else{
                 console.log("Error "+data.message)
             }

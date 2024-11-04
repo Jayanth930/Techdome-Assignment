@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate , Link } from "react-router-dom";
 import backendUrl from "../config/backendUrl";
 import axios from "axios"
+import { toast } from "react-toastify";
 export default function LoginPage(){
     const [open , setOpen ] = useState(false);
     const navigate = useNavigate()
@@ -18,10 +19,14 @@ export default function LoginPage(){
                 // store the accessToken 
                 const accessToken = data.data
                 localStorage.setItem("accesstoken",accessToken);
-                navigate("/home")
+                toast.success("Redirected to Home page")
+                setTimeout(()=>navigate("/home"),2000)
             }else if(data.responseCode === 2){
-                navigate("/register")
+                toast.success("Redirected to Profile page")
+                setTimeout(()=>navigate("/profile"),2000)
+                
             }else if(data.responseCode === 3){
+                toast.error("Incorrect Password")
                 setIsCorrectPassword(false)
             }
         } catch (error) {

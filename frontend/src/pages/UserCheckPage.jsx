@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import backendUrl from "../config/backendUrl"
-
+import { toast } from 'react-toastify';
 
 export default function UserCheckPage(){
     const navigate = useNavigate()
@@ -12,23 +12,28 @@ export default function UserCheckPage(){
         e.preventDefault();
         if(!email.includes("@gmail.com")){
             // Email is not Valid
+            toast.error("Email Not Valid")
             return;
         }
         try {
             const { data } = await axios.post(`${backendUrl}/api/v1/auth/check`,{ email })
             if(data.responseCode == 1){
-                navigate("/register");
+                toast.info("Redirected to registerpage")
+                setTimeout(()=>navigate("/register"),2000)
             }else if(data.responseCode == 2){
-                navigate("/login");
+                toast.info("Redirected to Login Page")
+                setTimeout(()=>navigate("/login"),2000)
             }else if(data.responseCode == 3){
-                navigate("/profile",{
+                toast.info("Redirected to Profile Page")
+                setTimeout(()=>navigate("/profile",{
                     state : {
                         email 
                     }
-                })
+                }),2000)
+                
             }else{
-                // Toast with error 
-                console.log("Error "+data.message)
+                // Toast with error
+                toast.error("Error "+data.message)
             }
         } catch (error) {
             console.log("Error "+error.message)

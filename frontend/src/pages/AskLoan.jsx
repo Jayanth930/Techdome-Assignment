@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import backendUrl from "../config/backendUrl"
 import axios from "axios"
+import { toast } from "react-toastify";
 
 export default function AskLoan(){
     const [amount , setAmount] = useState("");
@@ -19,9 +20,11 @@ export default function AskLoan(){
                 }
             })
             if(data.responseCode === 1){
-                navigate("/home/loan");
+                toast.success("Successfully created Loan")
+                setTimeout(()=>navigate("/home/loan"),[2000])
+                
             }else{
-                console.log("Error in creating Loan "+data.message)
+                toast.error("Error in creating Loan"+data.message)
             }
         } catch (error) {
             // Toast representing error

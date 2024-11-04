@@ -5,11 +5,13 @@ import UserCheckPage from "./pages/UserCheckPage"
 import ProfilePage from "./pages/ProfilePage"
 import HomePage from "./pages/HomePage"
 import AdminDashboard from "./pages/AdminDashboard"
-
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
  
   return (
     <>
+      <ToastContainer autoClose={2000}  />
       <Routes>
         <Route path="/" element={<UserCheckPage />} />
         <Route path="/login" element={<LoginPage />} />

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import backendUrl from "../config/backendUrl";
+import { toast } from "react-toastify";
 
 export default function RegisterPage(){
     const [open , setOpen ] = useState(false);
@@ -12,15 +13,17 @@ export default function RegisterPage(){
     async function handleSubmit(e){
         e.preventDefault()
         if(!email.includes("@gmail.com")){
-            // Toast should appear
+            toast.error("Email Not Valid")
             return;
         }
         try {
             const { data } = await axios.post(`${backendUrl}/api/v1/auth/register`, { email , password});
             if(data.responseCode == 1){
-                navigate("/profile",{
+                toast.success("Redirected to profile page")
+                setTimeout(()=> navigate("/profile",{
                     state : { email }
-                })
+                }),2000)
+               
             }else{
                 // Toast message
                 console.log("Error "+error.message)

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import backendUrl from "../config/backendUrl"
 import Modal from "../components/Modal"
 import axios from "axios"
+import { toast } from "react-toastify";
 
 export default function TermDashboard(){
 
@@ -21,6 +22,7 @@ export default function TermDashboard(){
             if(data.responseCode == 1){
                 setUpcomingTerms(data.data) // [{ termData },{ termData },{ termData },,,,,,]
             }else{
+                toast.error("Error in fetching pending upcoming terms "+data.message)
                 console.log("Error "+data.message)
             }   
           } catch (error) {
@@ -35,6 +37,7 @@ export default function TermDashboard(){
             if(data.responseCode == 1){
                 setPastPendingTerms(data.data) // [{ pastPendingTerms : [......] } , { pastPendingTerms : [......] } , .....]
             }else{ 
+                toast.error("Error in fetching past pending terms "+data.message)
                 console.log("Error "+data.message)
             }   
           } catch (error) {

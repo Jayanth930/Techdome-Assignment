@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link , useLocation, useNavigate } from "react-router-dom";
 import backendUrl from "../config/backendUrl";
 import axios from "axios"
+import { toast } from "react-toastify";
 
 export default function ProfilePage(){
     const [isfirstNameValid , setisFirstNameValid] = useState(true)
@@ -40,8 +41,17 @@ export default function ProfilePage(){
         const profileData = {
             firstName , lastName , phoneNo
         }
-        if(!isfirstNameValid || !islastNameValid || !islastNameValid || !phoneNo){
+        if(!isfirstNameValid || !islastNameValid || !isphoneNoValid || !phoneNo){
             // Show Toast message in which fields are not valid
+            if(!isfirstNameValid){
+                toast.error("First Name is not Valid")
+            }
+            if(!islastNameValid){
+                toast.error("Last Name is not Valid")
+            }
+            if(!isphoneNoValid){
+                toast.error("Phone Number is not Valid")
+            } 
             return 
         }
         
@@ -49,10 +59,12 @@ export default function ProfilePage(){
             const { data } = await axios.post(`${backendUrl}/api/v1/auth/profile?email=${email}`,profileData)
             if(data.responseCode == 1){
                  // successfully registered can go to home page
-                 navigate("/login")
+                 toast.success("Redirected to login page")
+                 setTimeout(()=>navigate("/login"),2000)
             }else if(data.responseCode == 2){
                 // email not found toast should appear
-                navigate("/register");
+                toast.success("Redirected to register page")
+                setTimeout(()=>navigate("/register"),2000)
             }else{
                 // an error occured
                 console.log("Error "+data.message)
