@@ -7,4 +7,5 @@ var express_1 = __importDefault(require("express"));
 var loanQuery_1 = require("../queries/loanQuery");
 var router = express_1.default.Router();
 router.post("/", loanQuery_1.askLoan);
+router.get("/", loanQuery_1.getLoans);
 exports.default = router;

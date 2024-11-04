@@ -61,7 +61,7 @@ var prisma = new client_1.PrismaClient();
 // checking user status in registration process
 function getUserStatus(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var email, user, error_1;
+        var email, user, status_1, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -73,10 +73,18 @@ function getUserStatus(req, res, next) {
                 case 2:
                     user = _a.sent();
                     if (!user) {
-                        res.status(200).json({ responseCode: 2, message: "User not found redirect to Register page" });
+                        res.status(200).json({ responseCode: 1, message: "User not found redirect to Register page" });
                     }
                     else {
-                        res.status(200).json({ responseCode: 3, message: "User found redirect to Profile Page" });
+                        status_1 = user.status;
+                        if (status_1 === "ACTIVE") {
+                            // profile completed , so redirect to Login Page.
+                            res.status(200).json({ responseCode: 2, message: "User found redirect to login page" });
+                        }
+                        else {
+                            // only registered , profile not completed , so redirect to Profile Page
+                            res.status(200).json({ responseCode: 3, message: "User found redirect to Profile Page" });
+                        }
                     }
                     return [3 /*break*/, 4];
                 case 3:
@@ -147,9 +155,9 @@ function completeProfile(req, res, next) {
                 case 2:
                     user = _b.sent();
                     if (!user)
-                        res.status(400).json({ responseCode: 2, message: "Email Not Found" });
+                        res.status(200).json({ responseCode: 2, message: "Email Not Found" });
                     else
-                        res.status(200).json({ responseCode: 1, message: "Successfully updated the user" });
+                        res.status(200).json({ responseCode: 1, message: "Successfully updated the user , redirect to Login Page" });
                     return [3 /*break*/, 4];
                 case 3:
                     error_3 = _b.sent();
@@ -163,7 +171,7 @@ function completeProfile(req, res, next) {
 // Validate User 
 function validateUser(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, email, password, user, hash, isValid, accessToken, error_4;
+        var _a, email, password, user, hash, status_2, id, isValid, accessToken, error_4;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -171,23 +179,25 @@ function validateUser(req, res, next) {
                     return [4 /*yield*/, prisma.user.findUnique({ where: { email: email } })];
                 case 1:
                     user = _b.sent();
-                    if (!user) {
-                        res.status(400).json({ responseCode: 2, message: "User Not Found , Redirect to register page" });
-                        return [2 /*return*/];
-                    }
                     _b.label = 2;
                 case 2:
                     _b.trys.push([2, 4, , 5]);
-                    hash = user.password;
+                    hash = user.password, status_2 = user.status, id = user.id;
                     return [4 /*yield*/, bcrypt_1.default.compare(password, hash)];
                 case 3:
                     isValid = _b.sent();
                     if (isValid) {
-                        accessToken = (0, utils_1.generateAccesstoken)({ email: email, id: user.id });
-                        res.status(200).json({ responseCode: 1, message: "Successfully Authenticated user", data: accessToken });
+                        accessToken = (0, utils_1.generateAccesstoken)({ email: email, id: id });
+                        if (status_2 === client_1.UserStatus.VERIFIED) {
+                            res.status(200).json({ responseCode: 2, message: "Redirect to profile page", data: accessToken });
+                        }
+                        else {
+                            // profile is also completed , redirect to home page
+                            res.status(200).json({ responseCode: 1, message: "Redirect to Home page", data: accessToken });
+                        }
                     }
                     else {
-                        res.status(400).json({ responseCode: 3, message: "Incorrect Passoword" });
+                        res.status(200).json({ responseCode: 3, message: "Incorrect Passoword" });
                     }
                     return [3 /*break*/, 5];
                 case 4:

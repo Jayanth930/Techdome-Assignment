@@ -12,8 +12,7 @@ var port = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: "*",
-    methods: ["GET", "PUT", "POST", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    methods: ["GET", "PUT", "POST", "PATCH", "DELETE"]
 }));
 app.use("/api/v1", appRouter_1.default);
 app.listen(port, function () {

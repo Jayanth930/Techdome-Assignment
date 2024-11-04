@@ -37,13 +37,64 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.askLoan = askLoan;
+exports.getLoans = getLoans;
+var client_1 = require("@prisma/client");
+var prisma = new client_1.PrismaClient();
 function askLoan(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, amount, term, email;
+        var _a, amount, term, id, loan, error_1;
         return __generator(this, function (_b) {
-            _a = req.body, amount = _a.amount, term = _a.term;
-            email = req.user.email;
-            return [2 /*return*/];
+            switch (_b.label) {
+                case 0:
+                    _a = req.body, amount = _a.amount, term = _a.term;
+                    id = req.user.id;
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, prisma.loan.create({
+                            data: { amount: parseFloat(amount), term: parseInt(term), payerId: id }
+                        })];
+                case 2:
+                    loan = _b.sent();
+                    if (!loan) {
+                        res.status(200).json({ responseCode: 2, message: "Unable to create Loan" });
+                        return [2 /*return*/];
+                    }
+                    else {
+                        res.status(200).json({ responseCode: 1, message: "Loan created", data: loan });
+                        return [2 /*return*/];
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _b.sent();
+                    res.status(500).json({ responseCode: 0, message: "Error in creating Loan" });
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+function getLoans(req, res, next) {
+    return __awaiter(this, void 0, void 0, function () {
+        var id, loans, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    id = req.user.id;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, prisma.loan.findMany({ where: { payerId: id } })];
+                case 2:
+                    loans = _a.sent();
+                    res.status(200).json({ responseCode: 1, message: "Successfully fetched Loans", data: loans });
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_2 = _a.sent();
+                    res.status(500).json({ responseCode: 0, message: "Unable to fetch loans" });
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
         });
     });
 }
