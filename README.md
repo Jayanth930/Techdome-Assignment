@@ -86,7 +86,7 @@ npm run start
 
 
 ## Look Ups 
-1. I provided request.rest and admin.rest which basically inclues all the available api endpoints.
+1. I provided request.rest and admin.rest inside backend folder which basically includes all the available api endpoints.
 
 ## Links
 Frontend Link : [https://techdome-frontend.netlify.app/](https://techdome-frontend.netlify.app/)
