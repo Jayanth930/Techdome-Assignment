@@ -1,0 +1,13 @@
+### Get All Loans
+GET http://localhost:3500/api/v1/admin/loans
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheWFudGhAZ21haWwuY29tIiwiaWQiOiI4ZjE5NWM2Mi1hYjFkLTQ3NzctODU0Ny1iMmIyYTI0YTFjYjUiLCJpYXQiOjE3MzAyMDkzMzIsImV4cCI6MTczMDgxNDEzMn0.IszFj-0FJ22Qn81GOYOlQsh6pnTwqct-fbRAhZ94REU 
+
+
+### Approve Loans
+PUT http://localhost:3500/api/v1/admin/loan/approve
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheWFudGhAZ21haWwuY29tIiwiaWQiOiI4ZjE5NWM2Mi1hYjFkLTQ3NzctODU0Ny1iMmIyYTI0YTFjYjUiLCJpYXQiOjE3MzA1NjM1MzksImV4cCI6MTczMTE2ODMzOX0.NLIBbnPXMeq-3A0qUk9lcBACERWzf_rZl9gR21RFCKg
+Content-Type: application/json
+
+{
+  "loans" : ["f32a43a2-b9a5-41e7-9643-3ada92717c1c"]
+}

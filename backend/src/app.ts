@@ -13,7 +13,9 @@ app.use(cors({
     methods : ["GET" , "PUT" , "POST" , "PATCH" , "DELETE"]
 }))
 
-
+app.get("/",(req,res)=>{
+    res.send("Server is up and Running")
+})
 app.use("/api/v1",appRouter)
 
 

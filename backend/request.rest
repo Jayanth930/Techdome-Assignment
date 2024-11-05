@@ -1,0 +1,74 @@
+### Check server status
+GET http://localhost:3500
+
+### To check email exists or not
+POST http://localhost:3500/api/v1/auth/check
+Content-Type: application/json
+
+{
+  "email" : "jayanth@gmail.com"
+}
+
+### Register user
+POST http://localhost:3500/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "email" : "kambhampatijayanth24@gmail.com" ,
+  "password" : "1234"
+}
+
+### Coplete Profile Details 
+POST http://localhost:3500/api/v1/auth/profile?email=jayanth@gmail.com
+Content-Type: application/json
+
+{
+  "firstName" : "Jayanth" ,
+  "phoneNo" : "8688143423"
+}
+
+### Validate User using JWT
+POST http://localhost:3500/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email" : "kambhampatijayanth24@gmail.com" ,
+  "password" : "1234"
+}
+
+### Post a Loan 
+POST http://localhost:3500/api/v1/loan
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheWFudGhAZ21haWwuY29tIiwiaWQiOiI4ZjE5NWM2Mi1hYjFkLTQ3NzctODU0Ny1iMmIyYTI0YTFjYjUiLCJpYXQiOjE3MzAyMDkzMzIsImV4cCI6MTczMDgxNDEzMn0.IszFj-0FJ22Qn81GOYOlQsh6pnTwqct-fbRAhZ94REU
+
+{
+  "amount" : 986.5487 ,
+  "term" : 3
+}
+
+### Get all loans for a user
+GET http://localhost:3500/api/v1/loan
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheWFudGhAZ21haWwuY29tIiwiaWQiOiI4ZjE5NWM2Mi1hYjFkLTQ3NzctODU0Ny1iMmIyYTI0YTFjYjUiLCJpYXQiOjE3MzAyMDkzMzIsImV4cCI6MTczMDgxNDEzMn0.IszFj-0FJ22Qn81GOYOlQsh6pnTwqct-fbRAhZ94REU
+
+### Get All Pending Upcoming Terms
+GET http://localhost:3500/api/v1/term/pending/upcoming
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheWFudGhAZ21haWwuY29tIiwiaWQiOiI4ZjE5NWM2Mi1hYjFkLTQ3NzctODU0Ny1iMmIyYTI0YTFjYjUiLCJpYXQiOjE3MzAyMDkzMzIsImV4cCI6MTczMDgxNDEzMn0.IszFj-0FJ22Qn81GOYOlQsh6pnTwqct-fbRAhZ94REU
+
+### Get All Pending Past Terms
+GET http://localhost:3500/api/v1/term/pending/past
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheWFudGhAZ21haWwuY29tIiwiaWQiOiI4ZjE5NWM2Mi1hYjFkLTQ3NzctODU0Ny1iMmIyYTI0YTFjYjUiLCJpYXQiOjE3MzAyMDkzMzIsImV4cCI6MTczMDgxNDEzMn0.IszFj-0FJ22Qn81GOYOlQsh6pnTwqct-fbRAhZ94REU
+
+### Pay a specific Term for a loan using termId
+POST http://localhost:3500/api/v1/term/payment
+Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheWFudGhAZ21haWwuY29tIiwiaWQiOiI4ZjE5NWM2Mi1hYjFkLTQ3NzctODU0Ny1iMmIyYTI0YTFjYjUiLCJpYXQiOjE3MzAyMDkzMzIsImV4cCI6MTczMDgxNDEzMn0.IszFj-0FJ22Qn81GOYOlQsh6pnTwqct-fbRAhZ94REU
+Content-Type: application/json
+
+{
+  "termId" : "1ef96089-2ebb-63c0-8cf6-548dbd99186e"
+}
+
+### Fetch All Loans which needs to be approved
+GET http://localhost:3500/api/v1/admin/loan
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpheWFudGhAZ21haWwuY29tIiwiaWQiOiI4ZjE5NWM2Mi1hYjFkLTQ3NzctODU0Ny1iMmIyYTI0YTFjYjUiLCJpYXQiOjE3MzAyMDkzMzIsImV4cCI6MTczMDgxNDEzMn0.IszFj-0FJ22Qn81GOYOlQsh6pnTwqct-fbRAhZ94REU
+
+
